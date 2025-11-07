@@ -8,4 +8,4 @@ Integrantes:
 - Rafael Medeiros Machado Dias
 - Ruan Carlos Oliveira da Silva
 
-Desafio: 3 Sistema de Agendamento de Consultas em Unidade Básica de Saúde
+Desafio 3 - Sistema de Agendamento de Consultas em Unidade Básica de Saúde
