@@ -1,0 +1,38 @@
+[
+    {
+        "id": "e4c5b2a0-8d9e-4c7f-9b1a-0a8c2d3e4f5d",
+        "user_email": "ruan@gmail.com",
+        "doctor_email": "jon@ubs.com",
+        "data": "2025-12-01",
+        "hora": "10:00",
+        "especialidade": "Cl\u00c3\u00adnico Geral",
+        "status": "CONFIRMADA"
+    },
+    {
+        "id": "7cd47e4e-12c8-42b0-aa98-1235387812d0",
+        "user_email": "ruan@gmail.com",
+        "doctor_email": "jon@ubs.com",
+        "data": "2025-12-02",
+        "hora": "14:00",
+        "especialidade": "Cl\u00c3\u00adnico Geral",
+        "status": "CONFIRMADA"
+    },
+    {
+        "id": "45921148-fdcb-4cdf-84cc-8db030e8eee0",
+        "user_email": "ruan@gmail.com",
+        "doctor_email": "jon@ubs.com",
+        "data": "2025-11-17",
+        "hora": "10:00",
+        "especialidade": "Ortopedista",
+        "status": "CANCELADA"
+    },
+    {
+        "id": "9c9a8d5b-d53c-4677-9b8a-66efed81d6fd",
+        "user_email": "ruan@gmail.com",
+        "doctor_email": "jon@ubs.com",
+        "data": "2025-11-17",
+        "hora": "11:00",
+        "especialidade": "Ortopedista",
+        "status": "CONFIRMADA"
+    }
+]

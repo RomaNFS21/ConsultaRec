@@ -1,0 +1,38 @@
+[
+    {
+        "doctor_email": "jon@ubs.com",
+        "day": "Sexta",
+        "start_time": "09:00",
+        "end_time": "17:00"
+    },
+    {
+        "doctor_email": "jon@ubs.com",
+        "day": "Segunda",
+        "start_time": "09:00",
+        "end_time": "17:00"
+    },
+    {
+        "doctor_email": "jon@ubs.com",
+        "day": "Segunda",
+        "start_time": "09:00",
+        "end_time": "17:00"
+    },
+    {
+        "doctor_email": "jon@ubs.com",
+        "day": "Segunda",
+        "start_time": "09:00",
+        "end_time": "17:00"
+    },
+    {
+        "doctor_email": "jon@ubs.com",
+        "day": "Segunda",
+        "start_time": "09:00",
+        "end_time": "17:00"
+    },
+    {
+        "doctor_email": "jon@ubs.com",
+        "day": "Segunda",
+        "start_time": "09:00",
+        "end_time": "17:00"
+    }
+]
