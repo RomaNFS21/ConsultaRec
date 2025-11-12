@@ -31,16 +31,18 @@ body {
     background: linear-gradient(90deg, #DAA520 0%, #FFD700 50%, #DAA520 100%);
 }
 
+/* --- ESTILOS REVISADOS PARA CARDS (Bordas mais suaves e sombra aprimorada) --- */
 .luxury-card {
     background: #FFFFFF;
     border: 1px solid #EEEEEE;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 12px; /* Aumentado */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06); /* Sombra mais profunda e suave */
     transition: all 0.3s ease-in-out;
 }
 
 .luxury-card:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
 }
 
 /* --- CABEÇALHO E NAVEGAÇÃO --- */
@@ -48,7 +50,7 @@ body {
     background: #FFFFFF;
     color: #333333;
     padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08); /* Sombra um pouco mais forte */
     position: sticky; 
     top: 0;
     z-index: 1000;
@@ -89,88 +91,45 @@ nav ul {
 
 .nav-item:hover {
     color: #DAA520;
-    border-bottom: 1px solid #DAA520;
+    border-bottom: 2px solid #DAA520; /* Borda mais definida */
 }
 
-.user-info {
-    font-weight: 500;
-    color: #666;
+.user-display { /* Adicionado estilo para o display do usuário */
+    font-weight: 600;
+    color: #3498db;
     margin-right: 15px;
+    padding: 5px 10px;
+    background: #ecf0f1;
+    border-radius: 6px;
 }
 
-.auth-status-right {
+.auth-controls {
     display: flex;
     align-items: center;
 }
 
-.profile-icon {
+#profile-icon {
     color: #DAA520;
     margin-left: 15px;
     transition: color 0.3s;
     text-decoration: none;
 }
-.profile-icon:hover {
+#profile-icon:hover {
     color: #C49219;
 }
 
-/* --- SEÇÃO HERO/BANNER --- */
-.hero {
-    background-size: cover;
-    background-position: center;
-    height: 55vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.hero::after { 
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    padding: 30px;
-    max-width: 550px;
-    text-align: left;
-}
-
-.sub-title {
-    font-size: 0.9em;
-    font-weight: 500;
-    color: #DAA520;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.hero-content h2 {
-    font-size: 2.8em;
-    font-weight: 700;
-    color: #FFFFFF;
-    margin-bottom: 25px;
-    line-height: 1.2;
-}
-
-/* --- BOTÕES DE AÇÃO --- */
+/* --- BOTÕES DE AÇÃO (Estilo Soft) --- */
 .btn {
     display: inline-block;
-    padding: 12px 30px;
-    border-radius: 4px;
+    padding: 12px 25px;
+    border-radius: 8px; /* Mais arredondado */
     text-decoration: none;
     font-weight: 600;
     cursor: pointer;
     border: none;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     text-transform: uppercase;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .btn-cta, .btn-submit {
@@ -180,18 +139,19 @@ nav ul {
 
 .btn-cta:hover, .btn-submit:hover {
     background: #C49219;
-    transform: translateY(-2px);
+    transform: translateY(-1px); /* Movimento mais sutil */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .btn-cancel {
     background: #95a5a6; 
     color: #fff;
-    box-shadow: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .btn-cancel:hover {
     background: #7f8c8d;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .btn-logout {
@@ -199,38 +159,13 @@ nav ul {
     color: #fff;
     padding: 8px 15px;
     font-size: 0.9em;
+    border-radius: 6px;
     box-shadow: none;
 }
-
-/* --- SEÇÃO SOBRE NÓS --- */
-.about-block {
-    padding: 40px;
-    text-align: center;
-    max-width: 900px;
-    margin: 40px auto;
+.btn-logout:hover {
+     background: #c0392b;
 }
 
-.stats-grid {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.stat-item {
-    flex-basis: 30%;
-    text-align: center;
-}
-
-.stat-item i {
-    color: #4CAF50;
-    margin-bottom: 10px;
-}
-
-.stat-item h4 {
-    font-weight: 600;
-    color: #333;
-}
 
 /* --- SEÇÕES DE CONTEÚDO GERAL --- */
 .content-section {
@@ -238,85 +173,34 @@ nav ul {
     text-align: center;
 }
 
-.light-bg {
-    background-color: #F8F8F8;
+.content-section h2 {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #2c3e50; /* Título mais escuro */
 }
 
-.card {
-    max-width: 600px;
-    padding: 35px;
+.content-section h2 i {
+    color: #DAA520;
+    margin-right: 10px;
+}
+
+
+/* --- FORMULÁRIOS GERAIS (Inputs com estilo aprimorado) --- */
+.form-container {
+    padding: 35px 40px;
+    max-width: 800px;
     margin: 30px auto;
     text-align: left;
 }
 
-.card-info, .section-info {
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.content-section h3 {
-    font-size: 1.6em;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.content-section h3 i {
-    color: #4CAF50;
-    margin-right: 8px;
-}
-
-/* --- ÁREA DE AUTENTICAÇÃO (BLOCO CENTRALIZADO) --- */
-
-.auth-blocks {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-}
-
-.auth-card {
-    max-width: 400px;
-    min-width: 300px;
-    text-align: left;
-    padding: 35px;
-}
-
-.title-auth {
-    font-size: 1.5em;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.auth-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9em;
-    margin-bottom: 25px;
-}
-
-.forgot-password {
-    color: #999;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.forgot-password:hover {
-    color: #DAA520;
-}
-
-/* --- FORMULÁRIOS GERAIS --- */
 .form-group {
     margin-bottom: 20px;
 }
 
 .form-group label {
-    font-weight: 500;
-    color: #333;
+    font-weight: 600;
+    color: #555;
     display: block;
     margin-bottom: 5px;
 }
@@ -326,49 +210,58 @@ nav ul {
     border: 1px solid #DDD;
     padding: 12px;
     width: 100%;
-    border-radius: 4px;
-    transition: border-color 0.3s;
+    border-radius: 6px; /* Aumentado */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #FAFAFA;
 }
 
 .form-group input:focus, 
 .form-group select:focus {
-    border-color: #DAA520;
+    border-color: #3498db;
     outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    background-color: #FFFFFF;
 }
 
-.form-actions {
-    margin-top: 30px;
-    text-align: right;
+.error-msg {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-weight: 500;
 }
+
 
 /* --- TABELAS --- */
 .table-responsive {
     padding: 0;
-    margin: 30px auto;
+    margin: 0 auto;
 }
 
 #consultas-tabela {
     width: 100%;
     border-collapse: collapse;
+    margin: 20px 0;
+    border-radius: 8px; /* Bordas suaves na tabela */
+    overflow: hidden; /* Garante que os cantos arredondados sejam aplicados */
 }
 
 #consultas-tabela thead th {
-    background: #DAA520;
+    background: #3498db; /* Mudança para azul, mais profissional */
     color: #fff;
-    padding: 15px 10px;
+    padding: 15px 15px;
     font-weight: 600;
     text-align: left;
 }
 
 #consultas-tabela tbody td {
-    padding: 12px 10px;
-    border-bottom: 1px solid #EEE;
+    padding: 15px 15px;
+    border-bottom: 1px solid #EAEAEA;
     color: #555;
     text-align: left;
 }
 
 #consultas-tabela tbody tr:hover {
-    background-color: #FAFAFA;
+    background-color: #EBF5FF; /* Soft Blue hover */
 }
 
 .empty-message {
@@ -377,10 +270,17 @@ nav ul {
     background: #E8F5E9;
     padding: 15px;
     font-weight: 500;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 /* --- SEÇÃO CONTATO/RODAPÉ --- */
+.contact-info {
+    padding: 30px 0;
+}
+.contact-info h3 {
+    margin-bottom: 30px;
+}
+
 .info-blocks {
     display: flex;
     justify-content: space-around;
@@ -399,17 +299,24 @@ nav ul {
     margin-bottom: 15px;
 }
 
+.info-block h4 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
 footer {
-    background: #333333;
+    background: #2c3e50; /* Mudança para um cinza/azul escuro */
     color: #AAAAAA;
-    padding: 25px 0;
-    font-size: 0.8em;
+    padding: 30px 0;
+    font-size: 0.9em;
 }
 
 /* --- ESTILOS DE LOGIN/REGISTRO (Layout Dividido) --- */
 
 .auth-body {
-    background-color: #F8F8F8;
+    background-color: #ecf0f1; /* Fundo levemente azulado */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -425,7 +332,7 @@ footer {
 .auth-box {
     display: flex;
     width: 100%;
-    max-width: 800px;
+    max-width: 850px; /* Levemente mais largo */
     margin: 0 auto;
     overflow: hidden;
 }
@@ -434,15 +341,22 @@ footer {
     width: 40%;
     background-size: cover;
     background-position: center;
-    min-height: 500px;
+    min-height: 550px; /* Levemente mais alto */
 }
 
 .auth-form-wrapper {
     width: 60%;
-    padding: 50px 40px;
+    padding: 60px 50px; /* Mais padding */
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.title-auth {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
 }
 
 .form-group-auth {
@@ -452,55 +366,85 @@ footer {
 .form-group-auth label {
     display: block;
     font-size: 0.9em;
-    font-weight: 500;
-    color: #777;
+    font-weight: 600;
+    color: #555;
     margin-bottom: 5px;
 }
 
-.form-group-auth input {
+.form-group-auth input,
+.form-group-auth select { /* Aplicando o novo estilo a selects */
     width: 100%;
-    padding: 12px 10px;
+    padding: 12px 15px;
     border: 1px solid #DDD;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group-auth input:focus,
+.form-group-auth select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* --- NOVO: Estilos para Grade Semanal (Recurso 4) --- */
+.weekly-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    text-align: left;
+}
+
+.day-column {
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.day-column h4 {
+    color: #2c3e50;
+    font-size: 1.1em;
+    border-bottom: 2px solid #DAA520;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.slot {
+    padding: 8px;
+    margin-bottom: 5px;
     border-radius: 4px;
-}
-
-.btn-auth {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.separator {
-    text-align: center;
-    margin: 30px 0 20px 0;
-    color: #aaa;
     font-size: 0.9em;
-    position: relative;
+    font-weight: 500;
 }
 
-.separator::before,
-.separator::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    background: #eee;
+.slot.available {
+    background-color: #e8f5e9; /* Soft Green */
+    color: #4CAF50;
 }
 
-.separator::before { left: 0; }
-.separator::after { right: 0; }
-
-.small-link {
-    text-align: center;
-    font-size: 0.9em;
-    color: #777;
+.slot.occupied {
+    background-color: #fce4ec; /* Soft Red/Pink */
+    color: #c24068;
 }
 
-.link-registro {
-    color: #DAA520;
-    text-decoration: none;
+.slot.occupied strong {
     font-weight: 600;
+    display: block;
+    margin-top: 3px;
+    font-size: 0.85em;
+    color: #8c2a49;
 }
+
+/* --- NOVO: Estilo para Destaque de Disponibilidade no Datepicker (Usuário) --- */
+.available-date {
+    background-color: #D3E0F3 !important; /* Soft Blue */
+    color: #2980b9 !important;
+    font-weight: 600;
+    border: 1px solid #2980b9;
+}
+
 
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
@@ -535,12 +479,14 @@ footer {
     .auth-box {
         flex-direction: column; 
         max-width: 450px;
+        border-radius: 12px;
     }
 
     .auth-image {
         width: 100%;
         height: 150px; 
         min-height: 0;
+        border-radius: 12px 12px 0 0;
     }
 
     .auth-form-wrapper {
