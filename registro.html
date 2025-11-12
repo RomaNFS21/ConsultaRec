@@ -20,10 +20,33 @@
                 
                 <h2 class="title-auth">Crie sua Conta</h2>
                 <form id="register-form" class="form-register">
+                    
+                    <div class="form-group-auth">
+                        <label for="register-role">Eu sou:</label>
+                        <select id="register-role" required>
+                            <option value="">Selecione seu Papel</option>
+                            <option value="user">Usuário Comum</option>
+                            <option value="admin">Médico (Admin)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group-auth">
+                        <label for="register-name">Nome Completo:</label>
+                        <input type="text" id="register-name" placeholder="Seu Nome Completo" required>
+                    </div>
+
                     <div class="form-group-auth">
                         <label for="register-email">Email:</label>
                         <input type="email" id="register-email" placeholder="seuemail@exemplo.com" required>
                     </div>
+                    
+                    <div id="doctor-fields" style="display: none; border: 1px dashed #DAA520; padding: 10px; margin-bottom: 20px; border-radius: 4px;">
+                        <h4 style="margin-top: 5px; margin-bottom: 10px; color: #DAA520; font-size: 1em;">Selecione sua(s) Especialidade(s) *</h4>
+                        <div id="specialties-checkboxes" class="form-group-auth" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 0;">
+                            </div>
+                        <p id="specialty-msg" class="error-msg" style="margin-top: 5px; font-size: 0.9em;"></p>
+                    </div>
+
                     <div class="form-group-auth">
                         <label for="register-senha">Nova Senha:</label>
                         <input type="password" id="register-senha" required>
