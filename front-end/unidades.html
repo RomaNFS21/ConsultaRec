@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossas Unidades - ConsultaRec</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <i class="fa-solid fa-heart-pulse"></i> ConsultaRec
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Início</a>
+                <a href="especialidades.html">Especialidades</a>
+                <a href="unidades.html" style="color: var(--secondary);">Onde Estamos</a>
+                <button class="btn-login-outline" onclick="window.location.href='index.html?action=agendar'">
+                    <i class="fa-regular fa-user"></i> Portal do Paciente
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero-section" style="padding: 3rem 2rem; min-height: 250px;">
+        <div class="hero-content" style="text-align: center; max-width: 800px;">
+            <h1>Onde Estamos</h1>
+            <p>Encontre a unidade ConsultaRec mais próxima de você. Estrutura moderna e acessível no coração de Recife.</p>
+        </div>
+    </div>
+
+    <main class="container" style="padding: 40px 20px; flex: 1;">
+        
+        <div class="portal-grid" style="grid-template-columns: 1fr 1fr; align-items: start;">
+            
+            <div class="card-portal">
+                <h2 style="color: var(--primary); margin-bottom: 20px;">Unidade Recife - Matriz</h2>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #666;"><i class="fa-solid fa-location-dot" style="color: var(--secondary); margin-right: 10px;"></i> Endereço:</h4>
+                    <p style="font-size: 1.1rem; margin-top: 5px;">Avenida, Cais do Apolo, 77<br>Recife - PE, 50030-220</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #666;"><i class="fa-solid fa-phone" style="color: var(--secondary); margin-right: 10px;"></i> Contato:</h4>
+                    <p style="font-size: 1.1rem; margin-top: 5px;">(81) 3333-0000<br>contato@consultarec.com.br</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="color: #666;"><i class="fa-regular fa-clock" style="color: var(--secondary); margin-right: 10px;"></i> Horário de Funcionamento:</h4>
+                    <p style="font-size: 1.1rem; margin-top: 5px;">Segunda a Sexta: 07h às 19h<br>Sábado: 08h às 14h</p>
+                </div>
+
+                <button class="btn-cta full" onclick="window.location.href='index.html?action=agendar'">Agendar nesta Unidade</button>
+            </div>
+
+            <div class="card-portal" style="padding: 10px; height: 100%; min-height: 400px;">
+             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.408976193829!2d-34.87506298778859!3d-8.059698591934428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab18a2e1380345%3A0x24c7863e4d95ddd4!2sCESAR%20School%20-%20Pr%C3%A9dio%20Brum!5e0!3m2!1spt-BR!2sbr!4v1764163943379!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+             </iframe>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2025 ConsultaRec - Sua saúde em primeiro lugar.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

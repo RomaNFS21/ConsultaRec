@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Especialidades - ConsultaRec</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container nav-container">
+        <div class="logo" onclick="window.location.href='index.html'">
+          <i class="fa-solid fa-heart-pulse"></i> ConsultaRec
+        </div>
+        <nav class="nav-links">
+          <a href="index.html">Início</a>
+          <a href="especialidades.html" style="color: var(--secondary)"
+            >Especialidades</a
+          >
+          <a href="unidades.html">Onde Estamos</a>
+          <button
+            class="btn-login-outline"
+            onclick="window.location.href='index.html?action=agendar'"
+          >
+            <i class="fa-regular fa-user"></i> Portal do Paciente
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero-section" style="padding: 3rem 2rem; min-height: 300px">
+      <div class="hero-content" style="text-align: center; max-width: 800px">
+        <h1>Nossas Especialidades</h1>
+        <p>
+          Conheça as áreas de atendimento do ConsultaRec. Contamos com
+          profissionais qualificados para cuidar da sua saúde em todas as fases
+          da vida.
+        </p>
+      </div>
+    </div>
+
+    <main
+      class="container"
+      style="
+        padding: 40px 20px 10px 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <div class="cards-grid" id="lista-especialidades" style="flex: 1"></div>
+
+      <div
+        style="
+          text-align: center;
+          margin-top: 30px;
+          margin-bottom: 20px;
+          padding-top: 20px;
+          border-top: 1px solid #eee;
+        "
+      >
+        <h3 style="margin-bottom: 10px">Não encontrou o que procura?</h3>
+        <p style="margin-bottom: 15px">
+          Entre em contato com nossa central ou verifique a disponibilidade.
+        </p>
+        <button class="btn-cta" onclick="window.location.href='index.html'">
+          Agendar Consulta
+        </button>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; 2025 ConsultaRec - Referência em Saúde.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      window.onload = function () {
+        const grid = document.getElementById("lista-especialidades");
+        const lista = db.get("especialidades");
+
+        if (lista.length === 0) {
+          grid.innerHTML = "<p>Carregando especialidades...</p>";
+          db.init();
+          window.location.reload();
+        }
+
+        grid.innerHTML = "";
+        lista.forEach((esp) => {
+          grid.innerHTML += `
+                    <div class="card-service" style="width: 100%; max-width: 300px; text-align: left;">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <i class="fa-solid ${esp.icone}" style="font-size: 2.5rem; background: transparent; padding:0; margin-bottom: 15px;"></i>
+                            <span style="background: #e6f0fa; color: #004481; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">ID: ${esp.id}</span>
+                        </div>
+                        <h3 style="font-size: 1.5rem;">${esp.nome}</h3>
+                        <p style="color: #666; font-size: 0.95rem;">${esp.descricao}</p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <small style="color: var(--secondary); font-weight: bold;">Disponível para agendamento</small>
+                        </div>
+                    </div>
+                `;
+        });
+      };
+    </script>
+  </body>
+</html>

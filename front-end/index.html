@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ConsultaRec - Medicina e Saúde</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container nav-container">
+        <div class="logo" onclick="app.navegar('home')">
+          <i class="fa-solid fa-heart-pulse"></i> ConsultaRec
+        </div>
+        <nav class="nav-links">
+          <a href="#" onclick="app.navegar('home')">Início</a>
+          <a href="especialidades.html">Especialidades</a>
+          <a href="unidades.html">Onde Estamos</a>
+          <button
+            class="btn-login-outline"
+            onclick="app.abrirModalLogin('paciente')"
+          >
+            <i class="fa-regular fa-user"></i> Portal do Paciente
+          </button>
+          <button
+            class="btn-login-solid"
+            onclick="app.abrirModalLogin('medico')"
+          >
+            <i class="fa-solid fa-user-doctor"></i> Área Médica
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <div id="msg-box"></div>
+
+    <main id="main-content">
+      <section id="view-home" class="view active">
+        <div class="hero-section">
+          <div class="hero-content">
+            <h1>Cuidar de você é a nossa prioridade.</h1>
+            <p>
+              Agende sua consulta com nossa equipe especializada em diversas
+              áreas da saúde.
+            </p>
+            <button
+              class="btn-cta"
+              onclick="window.location.href='index.html?action=agendar'"
+            >
+              Agendar Consulta
+            </button>
+          </div>
+          <div class="hero-image">
+            <i class="fa-solid fa-hospital-user"></i>
+          </div>
+        </div>
+
+        <div class="services-section">
+          <h2>Acesso Rápido</h2>
+          <div class="cards-grid">
+            <div
+              class="card-service"
+              onclick="window.location.href='especialidades.html'"
+              style="cursor: pointer"
+            >
+              <i class="fa-solid fa-star-of-life"></i>
+              <h3>Ver Especialidades</h3>
+              <p>
+                Confira a lista completa de especialidades médicas disponíveis.
+              </p>
+            </div>
+            <div
+              class="card-service"
+              onclick="app.abrirModalLogin('paciente')"
+              style="cursor: pointer"
+            >
+              <i class="fa-regular fa-calendar-check"></i>
+              <h3>Agendar</h3>
+              <p>Marque sua consulta online de forma rápida e fácil.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-paciente" class="view">
+        <div class="portal-header">
+          <h2>Olá, <span id="paciente-nome-display">Paciente</span></h2>
+          <button class="btn-logout" onclick="app.logout()">Sair</button>
+        </div>
+        <div class="portal-grid">
+          <div class="card-portal">
+            <h3>
+              <i class="fa-regular fa-calendar-plus"></i> Novo Agendamento
+            </h3>
+            <form id="form-agendamento-paciente">
+              <div class="form-group">
+                <label>Especialidade</label>
+                <select
+                  id="p-select-esp"
+                  onchange="paciente.filtrarMedicosPorEspecialidade()"
+                  required
+                >
+                  <option value="">Selecione...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Profissional</label>
+                <select id="p-select-prof" required disabled>
+                  <option value="">Selecione a especialidade...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Data</label>
+                <input type="date" id="p-data" required />
+              </div>
+
+              <div class="form-group">
+                <label>Horário Disponível</label>
+                <select id="p-hora" required>
+                  <option value="">Selecione data e médico primeiro...</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-cta full">
+                Confirmar Agendamento
+              </button>
+            </form>
+          </div>
+          <div class="card-portal wide">
+            <h3><i class="fa-solid fa-list-check"></i> Minhas Consultas</h3>
+            <table class="tabela-moderna" id="tabela-meus-agendamentos">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Médico</th>
+                  <th>Especialidade</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-medico" class="view">
+        <div class="dashboard-layout">
+          <aside class="sidebar">
+            <div class="user-info">
+              <div class="avatar"><i class="fa-solid fa-user-doctor"></i></div>
+              <h4 id="medico-nome-display">Dr. Usuário</h4>
+              <p id="medico-cargo-display">Médico</p>
+            </div>
+            <nav class="sidebar-menu">
+              <button
+                id="btn-dash"
+                onclick="admin.showTab('dash')"
+                class="active"
+              >
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+              </button>
+              <button id="btn-equipe" onclick="admin.showTab('funcionarios')">
+                <i class="fa-solid fa-briefcase-medical"></i> Equipe Médica
+              </button>
+              <button id="btn-pacientes" onclick="admin.showTab('pacientes')">
+                <i class="fa-solid fa-users"></i> Pacientes
+              </button>
+
+              <button id="btn-agenda" onclick="admin.showTab('consultas')">
+                <i class="fa-regular fa-calendar-check"></i> Agenda
+              </button>
+
+              <button onclick="app.logout()" class="logout-link">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+              </button>
+            </nav>
+          </aside>
+
+          <div class="dashboard-content">
+            <div id="tab-dash" class="tab-content active">
+              <h2>Visão Geral</h2>
+              <div class="stats-grid">
+                <div class="stat-card blue">
+                  <h3>Pacientes</h3>
+                  <span id="stat-pacientes">0</span>
+                </div>
+                <div class="stat-card green">
+                  <h3>Consultas</h3>
+                  <span id="stat-consultas">0</span>
+                </div>
+                <div class="stat-card purple">
+                  <h3>Equipe</h3>
+                  <span id="stat-equipe">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="tab-funcionarios" class="tab-content">
+              <div class="header-tab">
+                <h2>Gestão de Equipe</h2>
+                <button
+                  class="btn-add"
+                  onclick="admin.abrirModalCadastroFuncionario()"
+                >
+                  + Novo Funcionário
+                </button>
+              </div>
+              <table class="tabela-moderna" id="admin-tabela-funcionarios">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Cargo/Espec.</th>
+                    <th>CPF</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div id="tab-pacientes" class="tab-content">
+              <h2>Gestão de Pacientes</h2>
+              <table class="tabela-moderna" id="admin-tabela-pacientes">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div id="tab-consultas" class="tab-content">
+              <h2>Agenda Completa</h2>
+              <table class="tabela-moderna" id="admin-tabela-consultas">
+                <thead>
+                  <tr>
+                    <th>Data/Hora</th>
+                    <th>Paciente</th>
+                    <th>Médico</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="modal-login" class="modal">
+      <div class="modal-content login-box">
+        <span class="close" onclick="app.fecharModalLogin()">&times;</span>
+        <h2 id="login-title">Acesso</h2>
+        <p id="login-subtitle">Identifique-se</p>
+        <form id="form-login">
+          <div class="form-group">
+            <label id="label-login">Login</label
+            ><input type="text" id="login-input" required />
+          </div>
+          <button type="submit" class="btn-cta full">Entrar</button>
+        </form>
+        <div class="login-footer">
+          <p>Ainda não tem cadastro? <a href="cadastro.html">Criar conta</a></p>
+          <div class="quick-access-hint" id="hint-login"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-cad-func" class="modal">
+      <div class="modal-content">
+        <span
+          class="close"
+          onclick="document.getElementById('modal-cad-func').style.display='none'"
+          >&times;</span
+        >
+        <h2>Novo Funcionário</h2>
+        <form id="form-cad-func">
+          <div class="form-group">
+            <label>Nome Completo</label
+            ><input type="text" id="mf-nome" required />
+          </div>
+          <div class="form-group">
+            <label>CPF</label><input type="text" id="mf-cpf" required />
+          </div>
+          <div class="form-group">
+            <label>Cargo / Especialidade</label>
+            <select id="mf-cargo" required>
+              <option value="Clínica Geral">Clínica Geral</option>
+              <option value="Cardiologia">Cardiologia</option>
+              <option value="Pediatria">Pediatria</option>
+              <option value="Urologia">Urologia</option>
+              <option value="Ginecologia">Ginecologia</option>
+              <option value="Dermatologia">Dermatologia</option>
+              <option value="Enfermeiro">Enfermeiro(a)</option>
+              <option value="Recepcionista">Recepcionista</option>
+              <option value="Terapeuta">Terapeuta</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-cta full">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container footer-content"><p>&copy; 2025 ConsultaRec</p></div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
