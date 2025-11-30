@@ -40,5 +40,11 @@
         "nome": "Psicologia",
         "icone": "fa-brain",
         "descricao": "Terapia, saúde mental e bem-estar emocional."
+    },
+    {
+        "id": 8,
+        "nome": "Obstetrícia ",
+        "icone": "fa-person-pregnant",
+        "descricao": "Acompanhamento pré-natal, parto e pós-parto."
     }
 ]

@@ -15,14 +15,15 @@ FILES = {
 }
 
 DEFAULTS = {
-    "especialidades": [
+"especialidades": [
         { "id": 1, "nome": "Clínica Geral", "icone": "fa-user-doctor", "descricao": "Atendimento primário e check-ups." },
         { "id": 2, "nome": "Cardiologia", "icone": "fa-heart-pulse", "descricao": "Saúde do coração e sistema circulatório." },
         { "id": 3, "nome": "Pediatria", "icone": "fa-baby", "descricao": "Acompanhamento de crianças e adolescentes." },
         { "id": 4, "nome": "Urologia", "icone": "fa-mars", "descricao": "Trato urinário e sistema reprodutor masculino." },
         { "id": 5, "nome": "Ginecologia", "icone": "fa-venus", "descricao": "Saúde da mulher e sistema reprodutor feminino." },
         { "id": 6, "nome": "Dermatologia", "icone": "fa-hand-dots", "descricao": "Cuidados com a pele, cabelos e unhas." },
-        { "id": 7, "nome": "Psicologia", "icone": "fa-brain", "descricao": "Terapia, saúde mental e bem-estar emocional." }
+        { "id": 7, "nome": "Psicologia", "icone": "fa-brain", "descricao": "Terapia, saúde mental e bem-estar emocional." },
+        { "id": 8, "nome": "Obstetrícia", "icone": "fa-person-pregnant", "descricao": "Acompanhamento pré-natal, parto e pós-parto." }
     ],
     "funcionarios": [
         { "id": 20252411, "nome": "Dr. César", "cpf": "123.456.891-00", "cargo": "Gerente", "especialidade": "Clínica Geral", "senha": "123" },

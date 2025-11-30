@@ -1,1 +1,29 @@
-[]
+[
+    {
+        "id": 1,
+        "cpf_paciente": "119.180.047-20",
+        "nome_paciente": "Roberto Miranda",
+        "id_profissional": 20252911,
+        "data": "05/12/2025",
+        "horario": "16:45",
+        "status": "Agendada"
+    },
+    {
+        "id": 2,
+        "cpf_paciente": "119.180.047-20",
+        "nome_paciente": "Roberto Miranda",
+        "id_profissional": 20252811,
+        "data": "04/12/2025",
+        "horario": "17:00",
+        "status": "Agendada"
+    },
+    {
+        "id": 3,
+        "cpf_paciente": "111.222.333-44",
+        "nome_paciente": "Karolyne Ribeiro",
+        "id_profissional": 20252511,
+        "data": "03/12/2025",
+        "horario": "10:30",
+        "status": "Agendada"
+    }
+]

@@ -54,5 +54,13 @@
         "cargo": "Terapeuta",
         "especialidade": "Psicologia",
         "senha": "123456"
+    },
+    {
+        "id": 20253012,
+        "nome": "Dra. Beatriz Herief",
+        "cpf": "555.123.456-22",
+        "cargo": "Obstetrícia ",
+        "especialidade": "Obstetrícia ",
+        "senha": "123456"
     }
 ]
