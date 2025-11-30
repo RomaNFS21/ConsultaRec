@@ -465,7 +465,7 @@ const admin = {
     },
 
     async limparHistorico() {
-        if (confirm("⚠️ TEM CERTEZA? Isso apagará TODO o histórico de consultas do sistema.")) {
+        if (confirm(" TEM CERTEZA DISSO?! Isso apagará TODO o histórico de consultas do sistema.")) {
             try {
                 const response = await fetch('http://127.0.0.1:5000/api/consultas/limpar', { method: 'DELETE' });
                 if (response.ok) {

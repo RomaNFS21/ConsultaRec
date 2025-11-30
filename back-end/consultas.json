@@ -1,11 +1,1 @@
-[
-    {
-        "id": 1,
-        "cpf_paciente": "999.888.777-66",
-        "nome_paciente": "Maria Silva",
-        "id_profissional": 20252511,
-        "data": "01/12/2025",
-        "horario": "08:45",
-        "status": "Agendada"
-    }
-]
+[]

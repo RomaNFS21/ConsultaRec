@@ -182,6 +182,34 @@ def agendar_consulta():
         return jsonify({"message": "Agendado com sucesso!"}), 201
     return jsonify({"message": "Erro ao agendar."}), 500
 
+# ROTA NOVA ADICIONADA PARA REMARCAR CONSULTA
+@app.route('/api/consultas/<int:id>', methods=['PUT'])
+def atualizar_consulta(id):
+    data_req = request.json
+    consultas = carregar_dados('consultas')
+    consulta = next((c for c in consultas if c.get('id') == id), None)
+
+    if not consulta:
+        return jsonify({"message": "Consulta não encontrada."}), 404
+
+    # Verifica se o novo horário já está ocupado (excluindo a própria consulta atual)
+    conflito = next((c for c in consultas if 
+        c.get('id') != id and 
+        c.get('id_profissional') == consulta.get('id_profissional') and 
+        c.get('data') == data_req.get('data') and 
+        c.get('horario') == data_req.get('horario') and 
+        c.get('status') != 'Cancelada'), None)
+
+    if conflito:
+        return jsonify({"message": "Este horário já está ocupado!"}), 409
+
+    consulta['data'] = data_req.get('data')
+    consulta['horario'] = data_req.get('horario')
+
+    if salvar_dados('consultas', consultas):
+        return jsonify({"message": "Consulta reagendada com sucesso!"}), 200
+    return jsonify({"message": "Erro ao atualizar."}), 500
+
 @app.route('/api/consultas/<int:id>/cancelar', methods=['POST'])
 def cancelar_consulta(id):
     consultas = carregar_dados('consultas')
