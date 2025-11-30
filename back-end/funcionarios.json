@@ -1,0 +1,20 @@
+[
+  {
+    "id": 101,
+    "Nome": "Dr. Fernando Leal",
+    "Cpf": "111.222.333-44",
+    "Cargo": "Cardiologia"
+  },
+  {
+    "id": 102,
+    "Nome": "Dra. Elisa Matos",
+    "Cpf": "444.555.666-77",
+    "Cargo": "Pediatria"
+  },
+  {
+    "id": 103,
+    "Nome": "Juliana Sales",
+    "Cpf": "777.888.999-00",
+    "Cargo": "Recepcionista"
+  }
+]
