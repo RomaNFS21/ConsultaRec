@@ -238,23 +238,27 @@
               </table>
             </div>
 
-            <div id="tab-consultas" class="tab-content">
-              <h2>Agenda Completa</h2>
-              <table class="tabela-moderna" id="admin-tabela-consultas">
-                <thead>
-                  <tr>
-                    <th>Data/Hora</th>
-                    <th>Paciente</th>
-                    <th>Médico</th>
-                    <th>Status</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+           <div id="tab-consultas" class="tab-content">
+    <div class="header-tab">
+        <h2>Agenda Global</h2>
+        <button class="btn-logout" onclick="admin.limparHistorico()" style="background-color: #dc3545;">
+            <i class="fa-solid fa-trash-can"></i> Limpar Histórico
+        </button>
+    </div>
+    
+    <table class="tabela-moderna" id="admin-tabela-consultas">
+        <thead>
+            <tr>
+                <th>Data/Hora</th>
+                <th>Paciente</th>
+                <th>Médico</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
       </section>
     </main>
 
@@ -265,8 +269,13 @@
         <p id="login-subtitle">Identifique-se</p>
         <form id="form-login">
           <div class="form-group">
-            <label id="label-login">Login</label
-            ><input type="text" id="login-input" required />
+            <label id="label-login">Login</label>
+            <input type="text" id="login-input" required />
+          </div>
+
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="login-senha" required />
           </div>
           <button type="submit" class="btn-cta full">Entrar</button>
         </form>
@@ -287,12 +296,15 @@
         <h2>Novo Funcionário</h2>
         <form id="form-cad-func">
           <div class="form-group">
-            <label>Nome Completo</label
-            ><input type="text" id="mf-nome" required />
+            <label>Nome Completo</label>
+            <input type="text" id="mf-nome" required />
           </div>
+
           <div class="form-group">
-            <label>CPF</label><input type="text" id="mf-cpf" required />
+            <label>CPF</label>
+            <input type="text" id="mf-cpf" required />
           </div>
+
           <div class="form-group">
             <label>Cargo / Especialidade</label>
             <select id="mf-cargo" required>
@@ -307,6 +319,12 @@
               <option value="Terapeuta">Terapeuta</option>
             </select>
           </div>
+
+          <div class="form-group">
+            <label>Senha de Acesso</label>
+            <input type="password" id="mf-senha" required />
+          </div>
+
           <button type="submit" class="btn-cta full">Cadastrar</button>
         </form>
       </div>

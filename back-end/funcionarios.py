@@ -31,7 +31,7 @@ def ver_um(funcionarios):
         return
 
     try:
-        id_funcionario = int(input("Digite o ID do funcionario: "))
+        id_funcionario = int(input("Digite o ID do funcionário: "))
         for f in funcionarios:
             if f["id"] == id_funcionario:
                 print("\n Detalhes do funcionário:")
@@ -47,7 +47,7 @@ def ver_um(funcionarios):
 def atualizar_funcionario(funcionarios):
     ver_todos(funcionarios)
     try:
-        id_funcionario = int(input("Digite o ID do filme que deseja atualizar: "))
+        id_funcionario = int(input("Digite o ID do funcionário que deseja atualizar: "))
         for f in funcionarios:
             if f["id"] == id_funcionario:
                 print(f"Editando: {f['nome']}")
@@ -56,9 +56,9 @@ def atualizar_funcionario(funcionarios):
                 f["Cargo"] = input("Novo Cargo: ") or f["cargo"]
 
                 salvar_dados(funcionarios)
-                print("Funcionario atualizado com sucesso!\n")
+                print("Funcionário atualizado com sucesso!\n")
                 return
-        print("Funcionario não encontrado.\n")
+        print("Funcionário não encontrado.\n")
     except ValueError:
         print("ID inválido.\n")
 
@@ -66,7 +66,7 @@ def atualizar_funcionario(funcionarios):
 def deletar_funcionario(funcionarios):
     ver_todos(funcionarios)
     try:
-        id_funcionario = int(input("Digite o ID do filme que deseja excluir: "))
+        id_funcionario = int(input("Digite o ID do funcionário que deseja excluir: "))
         for f in funcionarios:
             if f["id"] == id_funcionario:
                 funcionarios.remove(f)

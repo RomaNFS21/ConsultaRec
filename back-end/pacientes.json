@@ -1,27 +1,10 @@
 [
     {
         "id": 1,
-        "nome": "Ana Souza",
-        "cpf": "123.456.789-00",
-        "telefone": "(81) 98765-4321",
-        "idade": "29",
-        "sexo": "F",
-        "email": "ana.souza@exemplo.com"
-    },
-    {
-        "id": 2,
-        "nome": "Carlos Mendes",
-        "cpf": "987.654.321-99",
-        "telefone": "(81) 99111-2222",
-        "idade": "45",
-        "sexo": "M",
-        "email": "carlos.mendes@exemplo.com"
-    },
-    {
-        "id": 3,
-        "nome": "Ruan Lindo da Silva Gostosao",
-        "cpf": "13344455566",
-        "telefone": "81945467765",
-        "email": "ruansafadao@gmail.com"
+        "nome": "Maria Silva",
+        "cpf": "999.888.777-66",
+        "telefone": "81988887777",
+        "email": "maria@email.com",
+        "senha": "456789"
     }
 ]

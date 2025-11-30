@@ -1,8 +1,4 @@
 def salvar_dados(dados):
-    """
-    Função auxiliar simulada para salvar os dados.
-    No projeto real, isso gravaria em um arquivo JSON.
-    """
     import json
     try:
         with open("pacientes.json", "w", encoding="utf-8") as f:

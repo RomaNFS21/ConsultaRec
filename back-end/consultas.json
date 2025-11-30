@@ -1,18 +1,11 @@
 [
-  {
-    "id": 1,
-    "id_paciente": 1,
-    "id_profissional": 101,
-    "data": "30/11/2025",
-    "horario": "14:00",
-    "descricao": "Check-up cardiológico"
-  },
-  {
-    "id": 2,
-    "id_paciente": 2,
-    "id_profissional": 102,
-    "data": "05/12/2025",
-    "horario": "10:30",
-    "descricao": "Consulta de rotina pediátrica"
-  }
+    {
+        "id": 1,
+        "cpf_paciente": "999.888.777-66",
+        "nome_paciente": "Maria Silva",
+        "id_profissional": 20252511,
+        "data": "01/12/2025",
+        "horario": "08:45",
+        "status": "Agendada"
+    }
 ]

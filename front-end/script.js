@@ -1,3 +1,16 @@
+const db = {
+    get(key) { return JSON.parse(localStorage.getItem(key)) || []; },
+    set(key, data) { localStorage.setItem(key, JSON.stringify(data)); },
+    
+    init() {
+        if (this.get('consultas').length === 0) { this.set('consultas', []); }
+    }
+};
+
+db.init();
+
+const state = { user: null, type: null };
+
 const app = {
     navegar(viewId) {
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
@@ -14,7 +27,7 @@ const app = {
         const modal = document.getElementById('modal-login');
         state.type = tipo;
         modal.style.display = 'block';
-
+        
         const hint = document.getElementById('hint-login');
         if (tipo === 'medico') {
             document.getElementById('login-title').innerText = "Acesso Médico";
@@ -33,12 +46,15 @@ const app = {
     },
 
     async login(val) {
+        const senhaEl = document.getElementById('login-senha');
+        const senha = senhaEl ? senhaEl.value : '';
+
         const url = 'http://127.0.0.1:5000/api/login';
         try {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ valor: val, tipo: state.type })
+                body: JSON.stringify({ valor: val, senha: senha, tipo: state.type })
             });
 
             const data = await response.json();
@@ -94,8 +110,9 @@ const app = {
         const cpf = document.getElementById('cad-cpf').value;
         const telefone = document.getElementById('cad-telefone').value;
         const email = document.getElementById('cad-email').value;
+        const senha = document.getElementById('cad-senha').value;
 
-        const dadosCadastro = { nome, cpf, telefone, email };
+        const dadosCadastro = { nome, cpf, telefone, email, senha };
 
         try {
             const response = await fetch('http://127.0.0.1:5000/api/pacientes', {
@@ -113,13 +130,14 @@ const app = {
                 app.notify(data.message || 'Erro ao cadastrar paciente.');
             }
         } catch (error) {
-            console.error('Erro de conexão:', error);
-            app.notify('Erro ao conectar com a API. Verifique se o servidor Python está ativo.');
+            app.notify('Erro ao conectar com a API.');
         }
+    },
+
+    redirecionarEspecialidade(nomeEspecialidade) {
+        window.location.href = `index.html?action=agendar&esp=${encodeURIComponent(nomeEspecialidade)}`;
     }
 };
-
-const state = { user: null, type: null };
 
 const paciente = {
     async getData(key) {
@@ -139,9 +157,17 @@ const paciente = {
     async carregarEspecialidades() {
         const sel = document.getElementById('p-select-esp');
         if (!sel) return;
+        
         const especialidades = await this.getData('especialidades');
         sel.innerHTML = '<option value="">Selecione...</option>';
         especialidades.forEach(e => sel.innerHTML += `<option value="${e.nome}">${e.nome}</option>`);
+
+        const filtroAuto = localStorage.getItem('filtro_esp_temp');
+        if (filtroAuto) {
+            sel.value = filtroAuto;
+            localStorage.removeItem('filtro_esp_temp');
+            this.filtrarMedicosPorEspecialidade();
+        }
     },
 
     async filtrarMedicosPorEspecialidade() {
@@ -160,6 +186,18 @@ const paciente = {
         }
     },
 
+    gerarSlots(horaInicio, horaFim) {
+        let slots = [];
+        for (let h = horaInicio; h < horaFim; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                let horaStr = h.toString().padStart(2, '0');
+                let minStr = m.toString().padStart(2, '0');
+                slots.push(`${horaStr}:${minStr}`);
+            }
+        }
+        return slots;
+    },
+
     async atualizarHorariosDisponiveis() {
         const idProf = document.getElementById('p-select-prof').value;
         const dataSelecionada = document.getElementById('p-data').value;
@@ -170,15 +208,18 @@ const paciente = {
         }
 
         const dataObj = new Date(dataSelecionada + 'T00:00:00');
-        const diaSemana = dataObj.getDay();
+        const diaSemana = dataObj.getDay(); 
         let horariosPossiveis = [];
 
         if (diaSemana === 0) {
             selectHora.innerHTML = '<option value="">Fechado aos Domingos</option>'; return;
         } else if (diaSemana === 6) {
-            horariosPossiveis = ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00"];
+            horariosPossiveis = this.gerarSlots(8, 14);
+            horariosPossiveis.push("14:00");
         } else {
-            horariosPossiveis = ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+            const manha = this.gerarSlots(8, 12);
+            const tarde = this.gerarSlots(13, 17);
+            horariosPossiveis = [...manha, ...tarde, "17:00"];
         }
 
         const dataFormatada = dataSelecionada.split('-').reverse().join('/');
@@ -188,10 +229,18 @@ const paciente = {
             .map(c => c.horario);
 
         selectHora.innerHTML = '<option value="">Selecione um horário...</option>';
+        let vagas = 0;
+
         horariosPossiveis.forEach(h => {
-            if (!ocupados.includes(h)) selectHora.innerHTML += `<option value="${h}">${h}</option>`;
-            else selectHora.innerHTML += `<option value="${h}" disabled style="color:red">${h} (Ocupado)</option>`;
+            if (!ocupados.includes(h)) {
+                selectHora.innerHTML += `<option value="${h}">${h}</option>`;
+                vagas++;
+            } else {
+                selectHora.innerHTML += `<option value="${h}" disabled style="color:red">${h} (Ocupado)</option>`;
+            }
         });
+
+        if (vagas === 0) selectHora.innerHTML = '<option value="">Dia lotado!</option>';
     },
 
     async agendar(e) {
@@ -202,7 +251,6 @@ const paciente = {
         if (!idProf || !data || !hora) return alert("Preencha todos os campos!");
 
         const dataFormatada = data.split('-').reverse().join('/');
-        
         const dadosAgendamento = {
             cpf_paciente: state.user.cpf,
             nome_paciente: state.user.nome,
@@ -225,10 +273,9 @@ const paciente = {
                 this.atualizarHorariosDisponiveis();
                 document.getElementById('form-agendamento-paciente').reset();
             } else {
-                alert(dataResponse.message || "Erro ao agendar consulta.");
+                alert(dataResponse.message || "Erro ao agendar.");
             }
         } catch (error) {
-            console.error('Erro de conexão:', error);
             app.notify('Erro ao conectar com a API.');
         }
     },
@@ -341,8 +388,9 @@ const admin = {
             let acoes = '-';
             if (status === 'Agendada') {
                 acoes = `
-                    <button class="btn-add" style="padding:5px 10px; font-size:0.8rem" onclick="admin.concluirConsulta(${c.id})">✅ Concluir</button>
-                    
+                    <button class="btn-add" style="padding:5px 10px; font-size:0.8rem" onclick="admin.concluirConsulta(${c.id})" title="Concluir">Concluir</button>
+                    <button class="btn-edit" style="padding:5px 10px; font-size:0.8rem" onclick="admin.remarcarConsulta(${c.id})" title="Remarcar">Remarcar</button>
+                    <button class="btn-logout" style="padding:5px 10px; font-size:0.8rem" onclick="admin.cancelarConsulta(${c.id})" title="Cancelar">Cancelar</button>
                 `;
             }
 
@@ -359,15 +407,73 @@ const admin = {
     },
 
     async concluirConsulta(id) {
-        if (confirm("Marcar consulta como concluída?")) {
+        if (confirm("Deseja marcar esta consulta como CONCLUÍDA?")) {
             try {
                 const response = await fetch(`http://127.0.0.1:5000/api/consultas/${id}/concluir`, { method: 'POST' });
-                const data = await response.json();
                 if (response.ok) {
-                    app.notify(data.message);
+                    app.notify("Consulta concluída com sucesso!");
                     this.listarConsultas();
                 } else {
-                    alert(data.message);
+                    alert("Erro ao concluir consulta.");
+                }
+            } catch (error) {
+                app.notify('Erro de conexão.');
+            }
+        }
+    },
+
+    async remarcarConsulta(id) {
+        const novaData = prompt("Nova Data (DD/MM/AAAA):");
+        if (!novaData) return;
+        const novoHorario = prompt("Novo Horário (HH:MM):");
+        if (!novoHorario) return;
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5000/api/consultas/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: novaData, horario: novoHorario })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                app.notify("Consulta reagendada com sucesso!");
+                this.listarConsultas();
+            } else {
+                alert(data.message || "Erro ao remarcar.");
+            }
+        } catch (error) {
+            app.notify('Erro ao conectar com a API.');
+        }
+    },
+
+    async cancelarConsulta(id) {
+        if (confirm("Tem certeza que deseja CANCELAR esta consulta?")) {
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/api/consultas/${id}/cancelar`, { method: 'POST' });
+                if (response.ok) {
+                    app.notify("Consulta cancelada.");
+                    this.listarConsultas();
+                } else {
+                    alert("Erro ao cancelar.");
+                }
+            } catch (error) {
+                app.notify('Erro de conexão.');
+            }
+        }
+    },
+
+    async limparHistorico() {
+        if (confirm("⚠️ TEM CERTEZA? Isso apagará TODO o histórico de consultas do sistema.")) {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/consultas/limpar', { method: 'DELETE' });
+                if (response.ok) {
+                    app.notify("Histórico apagado com sucesso.");
+                    this.listarConsultas();
+                    this.updateStats();
+                } else {
+                    alert("Erro ao limpar histórico.");
                 }
             } catch (error) {
                 app.notify('Erro ao conectar com a API.');
@@ -381,7 +487,9 @@ const admin = {
         tbody.innerHTML = '';
         const funcionarios = await this.getData('funcionarios');
         funcionarios.forEach(f => {
-            tbody.innerHTML += `<tr><td>${f.id}</td><td>${f.nome}</td><td>${f.especialidade || f.cargo}</td><td>${f.cpf}</td><td>-</td></tr>`;
+            tbody.innerHTML += `<tr><td>${f.id}</td><td>${f.nome}</td><td>${f.especialidade || f.cargo}</td><td>${f.cpf}</td><td>
+            <button class="btn-logout" onclick="admin.deletarFunc(${f.id})" style="padding:5px 10px"><i class="fa-solid fa-trash"></i></button>
+            </td></tr>`;
         });
     },
 
@@ -391,10 +499,11 @@ const admin = {
         e.preventDefault();
         const nome = document.getElementById('mf-nome').value;
         const cpf = document.getElementById('mf-cpf').value;
-        const cargo = document.getElementById('mf-cargo').value; 
+        const cargo = document.getElementById('mf-cargo').value;
+        const senha = document.getElementById('mf-senha').value;
         const especialidade = cargo;
 
-        const dadosCadastro = { nome, cpf, cargo, especialidade };
+        const dadosCadastro = { nome, cpf, cargo, especialidade, senha };
         
         try {
             const response = await fetch('http://127.0.0.1:5000/api/funcionarios', {
@@ -407,14 +516,27 @@ const admin = {
             if (response.ok) {
                 document.getElementById('modal-cad-func').style.display = 'none';
                 document.getElementById('form-cad-func').reset();
-                app.notify(`Funcionário ${nome} cadastrado com ID: ${data.id}`);
+                app.notify(`Funcionário ${nome} cadastrado! ID: ${data.id}`);
                 this.listarFuncionarios();
                 this.updateStats();
             } else {
-                alert(data.message || 'Erro ao cadastrar funcionário.');
+                alert(data.message);
             }
         } catch (error) {
-            app.notify('Erro ao conectar com a API.');
+            app.notify('Erro de conexão.');
+        }
+    },
+
+    async deletarFunc(id) {
+        if (confirm("Remover este funcionário?")) {
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/api/funcionarios/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    app.notify("Funcionário removido.");
+                    this.listarFuncionarios();
+                    this.updateStats();
+                }
+            } catch (error) { app.notify('Erro de conexão.'); }
         }
     },
 
@@ -423,51 +545,40 @@ const admin = {
         if (!tbody) return;
         tbody.innerHTML = '';
         const pacientes = await this.getData('pacientes');
-
         pacientes.forEach(p => {
-            tbody.innerHTML += `
-                <tr>
-                    <td>${p.nome}</td>
-                    <td>${p.cpf}</td>
-                    <td>${p.telefone}</td>
-                    <td style="display: flex; gap: 10px;">
-                        <button class="btn-logout" onclick="admin.deletarPaciente(${p.id})" title="Excluir" style="padding: 6px 12px;">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>`;
+            tbody.innerHTML += `<tr><td>${p.nome}</td><td>${p.cpf}</td><td>${p.telefone}</td><td>
+            <button class="btn-logout" onclick="admin.deletarPaciente(${p.id})" style="padding:5px 10px"><i class="fa-solid fa-trash"></i></button>
+            </td></tr>`;
         });
     },
 
     async deletarPaciente(id) {
-        if (confirm("Tem certeza que deseja excluir este paciente do sistema?")) {
+        if (confirm("Excluir paciente?")) {
             try {
                 const response = await fetch(`http://127.0.0.1:5000/api/pacientes/${id}`, { method: 'DELETE' });
-                const data = await response.json();
                 if (response.ok) {
-                    app.notify(data.message);
+                    app.notify("Paciente removido.");
                     this.listarPacientes();
                     this.updateStats();
-                } else {
-                    alert(data.message);
                 }
-            } catch (error) {
-                app.notify('Erro ao conectar com a API.');
-            }
+            } catch (error) { app.notify('Erro de conexão.'); }
         }
     }
 };
 
 window.onload = function () {
     app.carregarSessao();
-    
+    if (typeof app.renderHomeServices === 'function') app.renderHomeServices();
+
     if (document.getElementById('lista-especialidades')) {
         paciente.getData('especialidades').then(lista => {
             const grid = document.getElementById('lista-especialidades');
             grid.innerHTML = '';
             lista.forEach(esp => {
                 grid.innerHTML += `
-                    <div class="card-service" style="width: 100%; max-width: 300px; text-align: left;">
+                    <div class="card-service" 
+                         onclick="app.redirecionarEspecialidade('${esp.nome}')"
+                         style="width: 100%; max-width: 300px; text-align: left; cursor: pointer; transition: transform 0.2s;">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
                             <i class="fa-solid ${esp.icone}" style="font-size: 2.5rem; padding:0; margin-bottom: 15px;"></i>
                             <span style="background: #e6f0fa; color: #004481; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">ID: ${esp.id}</span>
@@ -475,7 +586,7 @@ window.onload = function () {
                         <h3 style="font-size: 1.5rem;">${esp.nome}</h3>
                         <p style="color: #666; font-size: 0.95rem;">${esp.descricao}</p>
                         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-                            <small style="color: var(--secondary); font-weight: bold;">Disponível para agendamento</small>
+                            <small style="color: var(--secondary); font-weight: bold;">Clique para agendar</small>
                         </div>
                     </div>`;
             });
@@ -484,13 +595,18 @@ window.onload = function () {
 
     const params = new URLSearchParams(window.location.search);
     if (params.get('action') === 'agendar') {
+        const espPrevia = params.get('esp');
+        if(espPrevia) localStorage.setItem('filtro_esp_temp', espPrevia);
+
         window.history.replaceState({}, document.title, window.location.pathname);
         if (state.user && state.type === 'paciente') {
             paciente.init();
         } else if (document.getElementById('modal-login')) {
             app.abrirModalLogin('paciente');
         } else {
-            window.location.href = 'index.html?action=agendar';
+            let destino = 'index.html?action=agendar';
+            if(espPrevia) destino += `&esp=${espPrevia}`;
+            window.location.href = destino;
         }
     }
 };

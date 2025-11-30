@@ -18,9 +18,7 @@
         </div>
         <nav class="nav-links">
           <a href="index.html">Início</a>
-          <a href="especialidades.html" style="color: var(--secondary)"
-            >Especialidades</a
-          >
+          <a href="especialidades.html" style="color: var(--secondary)">Especialidades</a>
           <a href="unidades.html">Onde Estamos</a>
           <button
             class="btn-login-outline"
@@ -67,7 +65,10 @@
         <p style="margin-bottom: 15px">
           Entre em contato com nossa central ou verifique a disponibilidade.
         </p>
-        <button class="btn-cta" onclick="window.location.href='index.html'">
+        <button
+          class="btn-cta"
+          onclick="window.location.href='index.html?action=agendar'"
+        >
           Agendar Consulta
         </button>
       </div>
@@ -80,34 +81,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      window.onload = function () {
-        const grid = document.getElementById("lista-especialidades");
-        const lista = db.get("especialidades");
-
-        if (lista.length === 0) {
-          grid.innerHTML = "<p>Carregando especialidades...</p>";
-          db.init();
-          window.location.reload();
-        }
-
-        grid.innerHTML = "";
-        lista.forEach((esp) => {
-          grid.innerHTML += `
-                    <div class="card-service" style="width: 100%; max-width: 300px; text-align: left;">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <i class="fa-solid ${esp.icone}" style="font-size: 2.5rem; background: transparent; padding:0; margin-bottom: 15px;"></i>
-                            <span style="background: #e6f0fa; color: #004481; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">ID: ${esp.id}</span>
-                        </div>
-                        <h3 style="font-size: 1.5rem;">${esp.nome}</h3>
-                        <p style="color: #666; font-size: 0.95rem;">${esp.descricao}</p>
-                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-                            <small style="color: var(--secondary); font-weight: bold;">Disponível para agendamento</small>
-                        </div>
-                    </div>
-                `;
-        });
-      };
-    </script>
   </body>
 </html>
