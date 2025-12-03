@@ -14,5 +14,13 @@
         "telefone": "81956564521",
         "email": "karol@email.com",
         "senha": "123456"
+    },
+    {
+        "id": 4,
+        "nome": "Teste Site",
+        "cpf": "123456456",
+        "telefone": "8456131456",
+        "email": "teste@gmail.com",
+        "senha": "teste123"
     }
 ]

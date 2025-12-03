@@ -1,87 +1,123 @@
-def carregar_dados():
-    """Carregar as consultas do banco (a ser implementado)."""
-    pass
+import json
+import os
+from datetime import datetime
 
+ARQUIVO_DB = "consultas.json"
+
+def carregar_dados():
+    if not os.path.exists(ARQUIVO_DB):
+        return []
+    try:
+        with open(ARQUIVO_DB, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return []
 
 def salvar_dados(dados):
-    """Salvar consultas no banco (a ser implementado)."""
-    pass
+    try:
+        with open(ARQUIVO_DB, "w", encoding="utf-8") as f:
+            json.dump(dados, f, indent=4, ensure_ascii=False)
+        return True
+    except Exception as e:
+        print(f"Erro ao salvar: {e}")
+        return False
 
+def validar_data(data_str):
+    try:
+        datetime.strptime(data_str, "%d/%m/%Y")
+        return True
+    except ValueError:
+        return False
 
-def validar_data(data):
-    """Validar data no formato correto (a ser implementado)."""
-    pass
+def validar_hora(hora_str):
+    try:
+        datetime.strptime(hora_str, "%H:%M")
+        return True
+    except ValueError:
+        return False
 
-
-def validar_hora(horario):
-    """Validar horário (a ser implementado)."""
-    pass
-
-def criar_consulta(id_consulta, id_paciente, id_profissional, data, horario, descricao):
-    
-    consultas = carregar_dados()
+def criar_consulta(consultas):
+    print("--- Nova Consulta ---")
+    cpf_paciente = input("CPF do Paciente: ")
+    id_medico = input("ID do Médico: ")
+    data = input("Data (DD/MM/AAAA): ")
+    horario = input("Horário (HH:MM): ")
 
     if not validar_data(data):
-        return "Data inválida! Use DD/MM/AAAA"
+        print(" Data inválida! Use DD/MM/AAAA")
+        return
     if not validar_hora(horario):
-        return "Horário inválido! Use HH:MM"
+        print(" Horário inválido! Use HH:MM")
+        return
 
-    nova_consulta = {
-        "id": id_consulta,
-        "id_paciente": id_paciente,
-        "id_profissional": id_profissional,
+    novo_id = max([c.get("id", 0) for c in consultas]) + 1 if consultas else 1
+
+    nova = {
+        "id": novo_id,
+        "cpf_paciente": cpf_paciente,
+        "id_profissional": id_medico,
         "data": data,
         "horario": horario,
-        "descricao": descricao
+        "status": "Agendada"
     }
 
-    consultas.append(nova_consulta)
+    consultas.append(nova)
     salvar_dados(consultas)
+    print(f" Consulta agendada! (ID: {novo_id})\n")
 
-    return f"Consulta {id_consulta} criada com sucesso!"
+def listar_consultas(consultas):
+    if not consultas:
+        print("Nenhuma consulta.\n")
+        return
+    print("\nAgenda:")
+    for c in consultas:
+        print(f"ID: {c['id']} | Data: {c['data']} - {c['horario']} | Paciente CPF: {c['cpf_paciente']}")
+    print()
 
+def buscar_consulta(consultas):
+    try:
+        id_con = int(input("ID da consulta: "))
+        for c in consultas:
+            if c["id"] == id_con:
+                print(f"\nDetalhes: {c['data']} às {c['horario']} - Status: {c.get('status','?')}")
+                return
+        print(" Não encontrada.")
+    except ValueError:
+        print(" ID inválido.")
 
-def listar_consultas():
-    return carregar_dados()
+def atualizar_consulta(consultas):
+    listar_consultas(consultas)
+    try:
+        id_con = int(input("ID para atualizar: "))
+        for c in consultas:
+            if c["id"] == id_con:
+                nova_data = input(f"Nova Data [{c['data']}]: ")
+                if nova_data and not validar_data(nova_data):
+                    print("Data inválida."); return
+                
+                novo_hora = input(f"Novo Horário [{c['horario']}]: ")
+                if novo_hora and not validar_hora(novo_hora):
+                    print("Hora inválida."); return
 
+                c['data'] = nova_data or c['data']
+                c['horario'] = novo_hora or c['horario']
+                salvar_dados(consultas)
+                print(" Atualizada!\n")
+                return
+        print(" Não encontrada.")
+    except ValueError:
+        print(" ID inválido.")
 
-def buscar_consulta(id_consulta):
-    consultas = carregar_dados()
-
-    for consulta in consultas:
-        if consulta["id"] == id_consulta:
-            return consulta
-
-    return "Consulta não encontrada."
-
-
-def atualizar_consulta(id_consulta, **novos_dados):
-    consultas = carregar_dados()
-
-    for consulta in consultas:
-        if consulta["id"] == id_consulta:
-
-            for chave, valor in novos_dados.items():
-
-                if chave == "data" and not validar_data(valor):
-                    return "Data inválida!"
-                if chave == "horario" and not validar_hora(valor):
-                    return "Horário inválido!"
-
-                consulta[chave] = valor
-
-            salvar_dados(consultas)
-            return f"Consulta {id_consulta} atualizada com sucesso!"
-
-    return "Consulta não encontrada."
-
-
-def deletar_consulta(id_consulta):
-    consultas = carregar_dados()
-    novas_consultas = [c for c in consultas if c["id"] != id_consulta]
-
-    if len(novas_consultas) == len(consultas):
-        return "Consulta não encontrada."
-
-    salvar_dados(novas_consultas)
-    return f"Consulta {id_consulta} removida com sucesso!"
+def deletar_consulta(consultas):
+    listar_consultas(consultas)
+    try:
+        id_con = int(input("ID para cancelar: "))
+        for c in consultas:
+            if c["id"] == id_con:
+                consultas.remove(c)
+                salvar_dados(consultas)
+                print("Cancelada/Removida!\n")
+                return
+        print(" Não encontrada.")
+    except ValueError:
+        print(" ID inválido.")

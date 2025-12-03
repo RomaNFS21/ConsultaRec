@@ -1,130 +1,94 @@
-import registro
+import pacientes
 import funcionarios
 import consultas
+import sys
+import os
 
 def menu_principal():
-   while True:
-      print("===== MENU PRINCIPAL =====")
-      print("1 --- Agendamento de Pacientes.")
-      print("2 --- Verificar Consultas.")
-      print("3 --- Registro de Funcionários.")
-      print("4 --- Sair do Menu Principal.")
-      print("==========================")
+    lista_pacientes = pacientes.carregar_dados()
+    lista_funcionarios = funcionarios.carregar_dados()
+    lista_consultas = consultas.carregar_dados()
 
-      opcao = int(input("Escolha uma opção do Menu Principal: "))
+    while True:
+        print("\n===== MENU PRINCIPAL - ConsultaRec =====")
+        print("1 --- Agendamento de Pacientes")
+        print("2 --- Verificar Consultas")
+        print("3 --- Registro de Funcionários")
+        print("4 --- Sair e Salvar")
+        print("===========================================")
 
-      if (opcao == 1):
-         carregar_dados(pacientes)
-         while True:
-            print("===== AGENDAMENTO DE PACIENTES =====")
-            print("1 --- Cadastrar um novo paciente.")
-            print("2 --- Listar pacientes cadastrados.")
-            print("3 --- Atualizar dados de um paciente.")
-            print("4 --- Remover um paciente do registro.")
-            print("5 --- Voltar ao Menu Principal.")
-            print("6 --- Sair do Menu de Seleção.")
-            print("====================================")
+        try:
+            opcao = int(input("Escolha uma opção: "))
+        except ValueError:
+            print("Digite apenas números!")
+            continue
 
-            opcao = int(input("Escolha uma opção para Agendamento de Pacientes: "))
-            match opcao:
-               case 1:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  cadastrar_paciente(pacientes)
-               case 2:
-                  print("Lista de pacientes encontrados: ")
-                  listar_pacientes(pacientes)
-               case 3:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  atualizar_pacientes(pacientes)
-               case 4:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  remover_paciente(pacientes)
-               case 5:
-                  menu_principal()
-               case 6:
-                  print("Saindo do Sistema!")
-                  break
-               case _:
-                  print("Opção inválida! Tente novamente.")
+        if opcao == 1:
+            while True:
+                print("\n --- PACIENTES ---")
+                print("1. Cadastrar")
+                print("2. Listar")
+                print("3. Atualizar")
+                print("4. Remover")
+                print("5. Buscar Detalhes")
+                print("6. Voltar ao Menu Principal")
+                
+                try:
+                    op = int(input("Opção: "))
+                    if op == 1: pacientes.cadastrar_paciente(lista_pacientes)
+                    elif op == 2: pacientes.listar_pacientes(lista_pacientes)
+                    elif op == 3: pacientes.atualizar_paciente(lista_pacientes)
+                    elif op == 4: pacientes.deletar_paciente(lista_pacientes)
+                    elif op == 5: pacientes.buscar_paciente(lista_pacientes)
+                    elif op == 6: break
+                    else: print("Opção inválida!")
+                except ValueError: print("Opção inválida!")
+        elif opcao == 2:
+            while True:
+                print("\n--- CONSULTAS ---")
+                print("1. Agendar Nova")
+                print("2. Listar Agenda")
+                print("3. Buscar Consulta")
+                print("4. Atualizar/Remarcar")
+                print("5. Cancelar")
+                print("6. Voltar ao Menu Principal")
 
-      elif (opcao == 2):
-         carregar_dados(consultas)
-         while True:
-            print("===== VERIFICAR CONSULTAS =====")
-            print("1 --- Marcar uma nova consulta médica.")
-            print("2 --- Listar consultas médicas marcadas.")
-            print("3 --- Buscar uma consulta médica específica.")
-            print("4 --- Atualização de consulta médica.")
-            print("5 --- Remover uma consulta médica do registro.")
-            print("6 --- Voltar ao Menu Principal.")
-            print("7 --- Sair do Menu de Seleção.")
-            print("===============================")
+                try:
+                    op = int(input("Opção: "))
+                    if op == 1: consultas.criar_consulta(lista_consultas)
+                    elif op == 2: consultas.listar_consultas(lista_consultas)
+                    elif op == 3: consultas.buscar_consulta(lista_consultas)
+                    elif op == 4: consultas.atualizar_consulta(lista_consultas)
+                    elif op == 5: consultas.deletar_consulta(lista_consultas)
+                    elif op == 6: break
+                    else: print("Opção inválida!")
+                except ValueError: print("Opção inválida!")
+        elif opcao == 3:
+            while True:
+                print("\n--- FUNCIONÁRIOS ---")
+                print("1. Cadastrar")
+                print("2. Listar Todos")
+                print("3. Buscar Específico")
+                print("4. Atualizar")
+                print("5. Remover")
+                print("6. Voltar ao Menu Principal")
 
-            opcao = int(input("Escolha uma opção para Verificar Consultas: "))
-            match opcao:
-               case 1:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  criar_consulta(consultas)
-               case 2:
-                  print("Lista de consultas agendadas: ")
-                  listar_consultas(consultas)
-               case 3:
-                  print("Realizando busca de consultas.")
-                  buscar_consultas(consultas)
-               case 4:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  atualizar_consultas(consultas)
-               case 5:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  deletar_consultas(consultas)
-               case 6:
-                  menu_principal()
-               case 7:
-                  print("Saindo do Sistema!")
-                  break
-               case _:
-                  print("Opção inválida! Tente novamente.")
+                try:
+                    op = int(input("Opção: "))
+                    if op == 1: funcionarios.cadastro_funcionario(lista_funcionarios)
+                    elif op == 2: funcionarios.ver_todos(lista_funcionarios)
+                    elif op == 3: funcionarios.ver_um(lista_funcionarios)
+                    elif op == 4: funcionarios.atualizar_funcionario(lista_funcionarios)
+                    elif op == 5: funcionarios.deletar_funcionario(lista_funcionarios)
+                    elif op == 6: break
+                    else: print("Opção inválida!")
+                except ValueError: print("Opção inválida!")
 
-      elif (opcao == 3):
-         carregar_dados(funcionarios)
-         while True:
-            print("===== REGISTRO DE FUNCIONÁRIOS =====")
-            print("1 --- Cadastrar um novo funcionário.")
-            print("2 --- Listar todos os funcionários.")
-            print("3 --- Buscar por um funcionário específico.")
-            print("4 --- Atualizar cadastro de um funcionário.")
-            print("5 --- Remover um funcionário do registro.")
-            print("6 --- Voltar ao Menu Principal.")
-            print("7 --- Sair do Menu de Seleção.")
-            print("====================================")
+        elif opcao == 4:
+            print("Saindo do sistema. Até logo!")
+            sys.exit()
+        else:
+            print("Opção inválida!")
 
-            opcao = int(input("Escolha uma opção para Registro de Funcionários: "))
-            match opcao:
-               case 1:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  cadastro_funcionario(funcionarios)
-               case 2:
-                  print("Lista de funcionários cadastrados: ")
-                  ver_todos(funcionarios)
-               case 3:
-                  print("Realizando busca de funcionários.")
-                  ver_um(funcionarios)
-               case 4:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  atualizar_funcionário(funcionarios)
-               case 5:
-                  print("Preencha o formulário à seguir com as informações requisitadas: ")
-                  deletar_funcionario(funcionarios)
-               case 6:
-                  menu_principal()
-               case 7:
-                  print("Saindo do Sistema!")
-                  break
-               case _:
-                  print("Opção inválida! Tente novamente.")
-
-      else:
-         print("Saindo do Sistema!")
-         break
-
-menu_principal()
+if __name__ == "__main__":
+    menu_principal()
