@@ -81,7 +81,7 @@ Para facilitar a avaliação, incluímos um script de inicialização automátic
     ```bash
     iniciar.bat
     ```
-    > *Este script ativará o ambiente virtual (se configurado), iniciará o servidor Flask e abrirá o navegador automaticamente.*
+    > *Este script ativará o ambiente virtual, iniciará o servidor Flask e abrirá o navegador automaticamente.*
 
 **Execução Manual (Alternativa):**
 ```bash
