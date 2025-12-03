@@ -1,59 +1,93 @@
-Lider Tecnico: Victor Barros Roma
+# 🏥 ConsultaRec - Sistema de Agendamento UBS
 
-Integrantes:
-- Cauã Henrique Melo Almeida
-- João Felipe Bonifácio Barros Da Silva
-- Luis Henrique Vilas Boas Silva De Sousa
-- Pedro Henrique Marques Feitosa
-- Rafael Medeiros Machado Dias
-- Ruan Carlos Oliveira da Silva
+> **Desafio 3 - Arquitetura Cliente-Servidor** > 🟢 **Status:** Concluído e Atualizado (30/11/2025)
 
-Desafio 3 - Sistema de Agendamento de Consultas em Unidade Básica de Saúde
-
-Lider Tecnico: Victor Barros Roma
-
-Integrantes:
-- Cauã Henrique Melo Almeida
-- João Felipe Bonifácio Barros Da Silva
-- Luis Henrique Vilas Boas Silva De Sousa
-- Pedro Henrique Marques Feitosa
-- Rafael Medeiros Machado Dias
-- Ruan Carlos Oliveira da Silva
-
-Desafio 3 - Sistema de Agendamento de Consultas em Unidade Básica de Saúde
+O **ConsultaRec** é uma solução digital desenvolvida para modernizar o agendamento de consultas em Unidades Básicas de Saúde (UBS), focando na experiência do usuário e na integridade dos dados.
 
 ---
 
-### STATUS E INFRAESTRUTURA ATUALIZADA (2025-11-30)
+## 👥 Equipe de Desenvolvimento
 
-O projeto foi totalmente migrado para uma arquitetura **Cliente-Servidor (Front-end com HTML/JS/CSS e Back-end com Flask API)**.
-
-#### **Tecnologias de Backend**
-* **Python:** Linguagem principal.
-* **Flask:** Framework para criação da API REST.
-* **JSON:** Arquivos utilizados para persistência de dados (simulando um banco de dados).
-
-**** ATENÇÃO! ****
-
-#### **Execução Rápida do Projeto**
-Para iniciar o sistema (Front-end e Back-end) com um clique, execute o script **`iniciar.bat`** na **raiz do projeto**.
+| Função | Nome |
+| :--- | :--- |
+| **Líder Técnico** | **Victor Barros Roma** |
+| Integrante | Cauã Henrique Melo Almeida |
+| Integrante | João Felipe Bonifácio Barros Da Silva |
+| Integrante | Luis Henrique Vilas Boas Silva De Sousa |
+| Integrante | Pedro Henrique Marques Feitosa |
+| Integrante | Rafael Medeiros Machado Dias |
+| Integrante | Ruan Carlos Oliveira da Silva |
 
 ---
 
-### O que foi feito> IMPLEMENTAÇÕES DA API
+## 🚀 Principais Implementações (Atualização Recente)
 
-**Migração de Persistência (`localStorage` -> JSON via API)**
-* **Objetivo:** Eliminar a dependência do `localStorage` (dados salvos apenas no navegador do cliente) e garantir que todos os dados sejam persistidos de forma centralizada nos arquivos `.json` do servidor.
-* **Ação:** O `script.js` foi reescrito para usar a função `fetch()` e se comunicar **exclusivamente** com o `app.py` para todas as operações de leitura e escrita (CRUD: Cadastro, Leitura, Atualização, Deleção).
+Nesta etapa do projeto, o foco foi a migração completa da arquitetura para um modelo **Cliente-Servidor** robusto.
 
-**Rotas da API Implementadas (`back-end/app.py`):**
-* `POST /api/pacientes`: Cadastro de novos pacientes.
-* `POST /api/funcionarios`: Cadastro de novos funcionários.
-* `POST /api/login`: Autenticação de paciente ou médico.
-* `GET /api/data/<key>`: Leitura de listas (pacientes, funcionários, consultas, especialidades).
-* `POST /api/consultas`: Agendamento de consultas.
-* `POST /api/consultas/<id>/cancelar`: Cancelamento de consulta.
-* `POST /api/consultas/<id>/concluir`: Conclusão de consulta.
-* `DELETE /api/pacientes/<id>`: Remoção de paciente.
+### ⚙️ 1. Migração de Persistência
+**De:** `localStorage` (Navegador/Cliente)  
+**Para:** JSON via API REST (Servidor Centralizado)
+
+* **🎯 Objetivo:** Eliminar a dependência do armazenamento local (que prendia os dados ao navegador do usuário) e garantir que todas as informações (pacientes, agendamentos, funcionários) sejam persistidas de forma centralizada no servidor.
+* **🛠️ Ação Técnica:** Refatoração completa do `front-end/script.js`. O código agora utiliza a Fetch API para se comunicar **exclusivamente** com o `back-end/app.py` para todas as operações de CRUD (Cadastro, Leitura, Atualização e Deleção).
+
+### 🔗 2. Documentação da API (`back-end/app.py`)
+
+Abaixo estão os *endpoints* implementados no servidor Flask para gerenciar o fluxo de dados do sistema:
+
+#### 🔐 Autenticação
+| Método | Rota | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/api/login` | Autenticação segura para Pacientes e Médicos. |
+
+#### 🩺 Gestão de Consultas
+| Método | Rota | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/api/consultas` | Agendamento de novas consultas. |
+| `POST` | `/api/consultas/<id>/cancelar` | Cancelamento de consulta existente. |
+| `POST` | `/api/consultas/<id>/concluir` | Marcação de consulta como realizada (Área Médica). |
+
+#### 👥 Gestão de Usuários
+| Método | Rota | Descrição |
+| :--- | :--- | :--- |
+| `POST` | `/api/pacientes` | Cadastro de novos pacientes. |
+| `DELETE` | `/api/pacientes/<id>` | Remoção de paciente do sistema. |
+| `POST` | `/api/funcionarios` | Cadastro de novos membros da equipe (Admin). |
+
+#### 📂 Leitura de Dados
+| Método | Rota | Descrição |
+| :--- | :--- | :--- |
+| `GET` | `/api/data/<key>` | Rota dinâmica para leitura de listas (`pacientes`, `funcionarios`, `consultas`, `especialidades`). |
 
 ---
+
+## 🛠️ Tecnologias Utilizadas
+
+O projeto foi construído sobre uma arquitetura Full Stack leve:
+
+* **Back-end:** Python 3 + Flask (API REST)
+* **Front-end:** HTML5, CSS3, JavaScript (ES6+)
+* **Persistência:** Arquivos JSON (Simulando banco de dados NoSQL)
+* **Ícones:** FontAwesome
+
+---
+
+## ▶️ Como Executar o Projeto
+
+Para facilitar a avaliação, incluímos um script de inicialização automática.
+
+1.  Certifique-se de ter o **Python 3** instalado em sua máquina.
+2.  Na raiz do projeto, dê um duplo clique no arquivo:
+    ```bash
+    iniciar.bat
+    ```
+    > *Este script ativará o ambiente virtual, iniciará o servidor Flask e abrirá o navegador automaticamente.*
+
+**Execução Manual (Alternativa):**
+```bash
+# Terminal 1 - Iniciar Servidor
+cd back-end
+python app.py
+
+# Terminal 2 - Acessar
+# Abra o arquivo front-end/index.html no seu navegador ou acesse [http://127.0.0.1:5000](http://127.0.0.1:5000) se configurado para servir estáticos.
