@@ -1,5 +1,6 @@
+import json
+
 def salvar_dados(dados):
-    import json
     try:
         with open("pacientes.json", "w", encoding="utf-8") as f:
             json.dump(dados, f, indent=4, ensure_ascii=False)
@@ -12,8 +13,10 @@ def cadastrar_paciente(pacientes):
     cpf = input("CPF: ") 
     telefone = input("Telefone: ")
 
+    novo_id = max([p["id"] for p in pacientes]) + 1 if pacientes else 1
+
     paciente = {
-        "id": len(pacientes) + 1,
+        "id": novo_id,
         "nome": nome,
         "cpf": cpf,
         "telefone": telefone,
@@ -21,7 +24,7 @@ def cadastrar_paciente(pacientes):
 
     pacientes.append(paciente)
     salvar_dados(pacientes)
-    print(f"Paciente '{nome}' cadastrado com sucesso!\n")
+    print(f"Paciente '{nome}' cadastrado com sucesso! (ID: {novo_id})\n")
 
 def listar_pacientes(pacientes):
     if not pacientes:
@@ -30,7 +33,10 @@ def listar_pacientes(pacientes):
 
     print("\n📋 Lista de Pacientes:")
     for p in pacientes:
-        print(f"ID: {p['id']} | {p['nome']} - CPF: {p['cpf']} - Tel: {p['telefone']}")
+        nome = p.get('nome', 'Sem nome')
+        cpf = p.get('cpf', 'S/ CPF')
+        tel = p.get('telefone', 'S/ Tel')
+        print(f"ID: {p['id']} | {nome} - CPF: {cpf} - Tel: {tel}")
     print()
 
 def buscar_paciente(pacientes):
@@ -58,10 +64,11 @@ def atualizar_paciente(pacientes):
         for p in pacientes:
             if p["id"] == id_paciente:
                 print(f"Editando dados de: {p['nome']}")
+                print("(Pressione Enter para manter o valor atual)")
                 
-                p["nome"] = input("Novo nome: ") or p["nome"]
-                p["cpf"] = input("Novo CPF: ") or p["cpf"]
-                p["telefone"] = input("Novo Telefone: ") or p["telefone"]
+                p["nome"] = input(f"Nome [{p['nome']}]: ") or p["nome"]
+                p["cpf"] = input(f"CPF [{p['cpf']}]: ") or p["cpf"]
+                p["telefone"] = input(f"Telefone [{p['telefone']}]: ") or p["telefone"]
 
                 salvar_dados(pacientes)
                 print(f"Paciente {id_paciente} atualizado com sucesso!\n")
