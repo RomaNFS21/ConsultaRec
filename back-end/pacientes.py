@@ -31,7 +31,7 @@ def listar_pacientes(pacientes):
         print("Nenhum paciente cadastrado.\n")
         return
 
-    print("\n📋 Lista de Pacientes:")
+    print("\n Lista de Pacientes:")
     for p in pacientes:
         nome = p.get('nome', 'Sem nome')
         cpf = p.get('cpf', 'S/ CPF')
@@ -89,4 +89,5 @@ def deletar_paciente(pacientes):
                 return
         print("Paciente não encontrado.\n")
     except ValueError:
+
         print("ID inválido.\n")
