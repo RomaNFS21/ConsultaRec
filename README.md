@@ -1,6 +1,6 @@
 # 🏥 ConsultaRec - Sistema de Agendamento UBS
 
-> **Desafio 3 - Arquitetura Cliente-Servidor** > 🟢 **Status:** Concluído e Atualizado (30/11/2025)
+> **Desafio 3 - Arquitetura Cliente-Servidor** > 🟢 **Status:** Concluído e Atualizado (03/12/2025)
 
 O **ConsultaRec** é uma solução digital desenvolvida para modernizar o agendamento de consultas em Unidades Básicas de Saúde (UBS), focando na experiência do usuário e na integridade dos dados.
 
