@@ -13,7 +13,6 @@ def carregar_dados():
         return []
 
 def salvar_dados(dados):
-    """Salva a lista atualizada no JSON."""
     try:
         with open(ARQUIVO_DB, "w", encoding="utf-8") as f:
             json.dump(dados, f, indent=4, ensure_ascii=False)

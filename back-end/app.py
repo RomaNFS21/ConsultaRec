@@ -39,7 +39,6 @@ DEFAULTS = {
 }
 
 def inicializar_dados():
-    """Cria os arquivos JSON iniciais se eles não existirem."""
     for key, filepath in FILES.items():
         if not os.path.exists(filepath):
             print(f"Criando arquivo padrão: {filepath}")
@@ -183,7 +182,7 @@ def agendar_consulta():
         return jsonify({"message": "Agendado com sucesso!"}), 201
     return jsonify({"message": "Erro ao agendar."}), 500
 
-# ROTA NOVA ADICIONADA PARA REMARCAR CONSULTA
+
 @app.route('/api/consultas/<int:id>', methods=['PUT'])
 def atualizar_consulta(id):
     data_req = request.json
@@ -193,7 +192,7 @@ def atualizar_consulta(id):
     if not consulta:
         return jsonify({"message": "Consulta não encontrada."}), 404
 
-    # Verifica se o novo horário já está ocupado (excluindo a própria consulta atual)
+ 
     conflito = next((c for c in consultas if 
         c.get('id') != id and 
         c.get('id_profissional') == consulta.get('id_profissional') and 
